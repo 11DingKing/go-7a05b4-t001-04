@@ -94,7 +94,7 @@ func runSettle(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 		w = runtime.NumCPU()
 	}
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
-	cancel()
+	defer cancel()
 	result, err := settle.Run(ctx, cfg, orders, w)
 	if err != nil {
 		fmt.Fprintf(stderr, "整批失败: %v\n", err)
